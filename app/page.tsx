@@ -1,6 +1,7 @@
 import ChatHeader from "@/components/ChatHeader";
 import ChatMessages from "@/components/ChatMessages";
 import ChatInput from "@/components/ChatInput";
+import CameraButton from "@/components/ChatInput";
 
 export default function Home() {
   return (
@@ -13,8 +14,8 @@ export default function Home() {
         <ChatMessages />
       </div>
 
-      {/* 하단 입력창 */}
-      <ChatInput />
+      {/* Floating 카메라 버튼 */}
+      <CameraButton />
     </div>
   );
 }
