@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import PictureModal from "./PictureModal";
 
 export default function CameraButton() {
@@ -9,9 +9,9 @@ export default function CameraButton() {
   const [imageUrl, setImageUrl] = useState("");
 
   const handleButtonClick = () => {
-    alert("버튼이 클릭되었습니다!");
     inputRef.current?.click();
   };
+
   return (
     <div>
       <button
@@ -36,7 +36,13 @@ export default function CameraButton() {
           }
         }}
       />
-      {isOpen && imageUrl && <PictureModal imageUrl={imageUrl} />}
+      {isOpen && imageUrl && (
+        <PictureModal
+          imageUrl={imageUrl}
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+        />
+      )}
     </div>
   );
 }
