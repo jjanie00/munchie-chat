@@ -30,11 +30,8 @@ export default function CameraButton() {
           // 사용자가 사진 촬영한 이후 실행
           const image = e.target.files?.[0];
           if (image) {
-            // 이미지 파일 형식 변환
             const imageUrl = URL.createObjectURL(image);
-            // 모달 열기
-            setIsOpen(true);
-            // 이미지 url 설정
+            setIsOpen(true); // 모달 열기
             setImageUrl(imageUrl);
           }
         }}
@@ -43,5 +40,3 @@ export default function CameraButton() {
     </div>
   );
 }
-
-// 이미지 문자열로 변환 후 PictureModal 에 전달
