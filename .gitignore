@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# README.md 를 제외한 모든 .md 파일 푸시 제외
+*.md
+!README.md

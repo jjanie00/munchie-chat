@@ -1,7 +1,6 @@
 import ChatHeader from "@/components/ChatHeader";
 import ChatMessages from "@/components/ChatMessages";
-import ChatInput from "@/components/ChatInput";
-import CameraButton from "@/components/ChatInput";
+import CameraButton from "@/components/CameraButton";
 
 export default function Home() {
   return (
