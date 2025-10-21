@@ -23,8 +23,6 @@ export default function PictureModal({
   isOpen,
   onClose,
 }: PictureModalProps) {
-  console.log("PictureModal render:", { isOpen, imageUrl });
-
   return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-50">
       <DialogBackdrop className="fixed inset-0 bg-black/50" />

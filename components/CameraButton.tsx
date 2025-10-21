@@ -33,6 +33,7 @@ export default function CameraButton() {
             const imageUrl = URL.createObjectURL(image);
             setIsOpen(true); // 모달 열기
             setImageUrl(imageUrl);
+            URL.revokeObjectURL(imageUrl); // 메모리 누수 방지
           }
         }}
       />
