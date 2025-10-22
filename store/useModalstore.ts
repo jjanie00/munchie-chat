@@ -1,9 +1,5 @@
+import { ModalData } from "@/types";
 import { create } from "zustand/react";
-
-interface ModalData {
-  imageUrl: string;
-  description: string;
-}
 
 interface ModalStore {
   modalData: ModalData | null;
