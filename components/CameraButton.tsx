@@ -31,8 +31,8 @@ export default function CameraButton() {
           const image = e.target.files?.[0];
           if (image) {
             const imageUrl = URL.createObjectURL(image);
-            setIsOpen(true); // 모달 열기
             setImageUrl(imageUrl);
+            setIsOpen(true); // 모달 열기
           }
         }}
       />

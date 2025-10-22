@@ -1,9 +1,12 @@
+import { useModalStore } from "@/store/useModalstore";
+import { ModalData } from "@/types";
 import {
   Dialog,
   DialogBackdrop,
   DialogPanel,
   DialogTitle,
 } from "@headlessui/react";
+import { useState } from "react";
 
 interface PictureModalProps {
   imageUrl: string;
@@ -23,7 +26,12 @@ export default function PictureModal({
   isOpen,
   onClose,
 }: PictureModalProps) {
-  console.log("imageUrl", imageUrl);
+  const [description, setDescription] = useState("");
+
+  const handleRegister = ({ imageUrl, description }: ModalData) => {
+    onClose();
+    useModalStore.getState().setModalData({ imageUrl, description });
+  };
   return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-50">
       <DialogBackdrop className="fixed inset-0 bg-black/50" />
@@ -39,9 +47,16 @@ export default function PictureModal({
             className="w-full h-auto rounded-lg"
             alt="촬영한 사진"
           />
-          <textarea className="w-full h-32 border border-gray-300 rounded-lg p-2 text-black mt-4" />
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full h-32 border border-gray-300 rounded-lg p-2 text-black mt-4"
+          />
           <div className="mt-4 flex gap-2 justify-end">
-            <button className="px-4 py-2 bg-black text-white rounded-lg cursor-pointer">
+            <button
+              className="px-4 py-2 bg-black text-white rounded-lg cursor-pointer"
+              onClick={() => handleRegister({ imageUrl, description })}
+            >
               등록
             </button>
             <button
@@ -56,5 +71,3 @@ export default function PictureModal({
     </Dialog>
   );
 }
-
-// todo :: 등록 버튼

@@ -1,50 +1,56 @@
 "use client";
 
 import { useState } from "react";
+import { useModalStore } from "@/store/useModalstore";
 
 interface Message {
   id: number;
-  text: string;
+  imageUrl?: string;
+  description: string;
   isOwn: boolean;
   timestamp: string;
-  type: "text" | "image";
 }
 
 export default function ChatMessages() {
+  // get modalData from modalStore
+  const modalData = useModalStore((state) => state.modalData);
+  console.log("modalData", modalData);
+
   const [messages] = useState<Message[]>([
     {
       id: 1,
-      text: "안녕하세요! 오늘 날씨가 정말 좋네요.",
+      description: "안녕하세요! 오늘 날씨가 정말 좋네요.",
       isOwn: false,
       timestamp: "오후 2:30",
-      type: "text",
     },
     {
       id: 2,
-      text: "네, 맞아요. 산책하기 딱 좋은 날씨 같아요.",
+      description: "네, 맞아요. 산책하기 딱 좋은 날씨 같아요.",
       isOwn: true,
       timestamp: "오후 2:32",
-      type: "text",
     },
     {
       id: 3,
-      text: "요즘 어떻게 지내세요?",
+      description: "요즘 어떻게 지내세요?",
       isOwn: false,
       timestamp: "오후 2:35",
-      type: "text",
-    },
-    {
-      id: 4,
-      text: "이미지 메모",
-      isOwn: true,
-      timestamp: "오후 2:35",
-      type: "text",
     },
   ]);
 
+  // add modalData to messages
+  if (modalData) {
+    messages.push({
+      id: messages.length + 1,
+      // imageUrl: modalData.imageUrl,
+      description: modalData.description,
+      isOwn: true,
+      timestamp: "오후 2:35",
+    });
+  }
+
   return (
     <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 bg-[#f2f3f5]">
-      {messages.map((message) => (
+      {messages.map((message: Message) => (
         <div
           key={message.id}
           className={`flex ${message.isOwn ? "justify-end" : "justify-start"}`}
@@ -66,7 +72,15 @@ export default function ChatMessages() {
                   : "bg-white text-gray-800 rounded-bl-md shadow-sm"
               }`}
             >
-              <p className="text-sm leading-relaxed">{message.text}</p>
+              {/* temporary message rendering */}
+              {message.imageUrl && (
+                <img
+                  src={message.imageUrl}
+                  className="w-full h-auto rounded-lg"
+                  alt="image"
+                />
+              )}
+              <p className="text-sm leading-relaxed">{message.description}</p>
             </div>
 
             <div
@@ -80,7 +94,6 @@ export default function ChatMessages() {
         </div>
       ))}
 
-      {/* 빈 공간 추가 */}
       <div className="h-4"></div>
     </div>
   );
