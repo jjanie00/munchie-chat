@@ -1,20 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useModalStore } from "@/store/useModalstore";
 
 interface Message {
   id: number;
-  imageUrl?: string;
-  description: string;
+  imageUrl?: string; // 임시 옵셔널 체이닝
+  description?: string;
   isOwn: boolean;
   timestamp: string;
 }
 
 export default function ChatMessages() {
   const modalData = useModalStore((state) => state.modalData);
-  console.log("modalData", modalData);
-  const [messages] = useState<Message[]>([
+
+  const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
       description: "안녕하세요! 오늘 날씨가 정말 좋네요.",
@@ -35,20 +35,20 @@ export default function ChatMessages() {
     },
   ]);
 
-  // 모달 데이터 존재 시 메시지 추가
-  if (modalData) {
-    messages.push({
-      id: messages.length + 1,
-      imageUrl: modalData.imageUrl,
-      description: modalData.description,
-      isOwn: true,
-      timestamp: "오후 2:35",
-    });
-  }
+  useEffect(() => {
+    console.log("messages", messages);
+  }, [messages]);
+
+  useEffect(() => {
+    // 모달 데이터 존재 시 메시지 추가
+    if (modalData) {
+      setMessages((prev) => [...prev, modalData]);
+    }
+  }, [modalData]);
 
   return (
     <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 bg-[#f2f3f5]">
-      {messages.map((message: Message) => (
+      {messages.map((message) => (
         <div
           key={message.id}
           className={`flex ${message.isOwn ? "justify-end" : "justify-start"}`}
@@ -96,5 +96,3 @@ export default function ChatMessages() {
     </div>
   );
 }
-
-// 이미지 두 번 표시
