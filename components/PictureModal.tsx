@@ -29,11 +29,24 @@ export default function PictureModal({
 }: PictureModalProps) {
   const [description, setDescription] = useState("");
 
-  const handleRegister = async ({ imageUrl, description }: ModalData) => {
+  const handleRegister = async ({
+    id,
+    isOwn,
+    imageUrl,
+    description,
+    timestamp,
+  }: ModalData) => {
+    // 이미지를 base64로 변환
     const convertedImgUrl = (await picToBase64(imageUrl)) as string;
-    useModalStore
-      .getState()
-      .setModalData({ imageUrl: convertedImgUrl, description });
+    // 스토어에 모달 데이터 설정
+    useModalStore.getState().setModalData({
+      id,
+      isOwn,
+      imageUrl: convertedImgUrl,
+      description,
+      timestamp,
+    });
+    // 모달 닫기
     onClose();
   };
   return (
@@ -59,7 +72,15 @@ export default function PictureModal({
           <div className="mt-4 flex gap-2 justify-end">
             <button
               className="px-4 py-2 bg-black text-white rounded-lg cursor-pointer"
-              onClick={() => handleRegister({ imageUrl, description })}
+              onClick={() =>
+                handleRegister({
+                  id: 0,
+                  isOwn: false,
+                  imageUrl,
+                  description,
+                  timestamp: new Date().toISOString(),
+                })
+              }
             >
               등록
             </button>
