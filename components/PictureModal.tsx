@@ -1,5 +1,6 @@
 import { useModalStore } from "@/store/useModalstore";
 import { ModalData } from "@/types";
+import { picToBase64 } from "@/util";
 import {
   Dialog,
   DialogBackdrop,
@@ -28,9 +29,12 @@ export default function PictureModal({
 }: PictureModalProps) {
   const [description, setDescription] = useState("");
 
-  const handleRegister = ({ imageUrl, description }: ModalData) => {
+  const handleRegister = async ({ imageUrl, description }: ModalData) => {
+    const convertedImgUrl = (await picToBase64(imageUrl)) as string;
+    useModalStore
+      .getState()
+      .setModalData({ imageUrl: convertedImgUrl, description });
     onClose();
-    useModalStore.getState().setModalData({ imageUrl, description });
   };
   return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-50">
