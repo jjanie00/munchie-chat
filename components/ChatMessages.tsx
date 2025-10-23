@@ -12,10 +12,8 @@ interface Message {
 }
 
 export default function ChatMessages() {
-  // get modalData from modalStore
   const modalData = useModalStore((state) => state.modalData);
   console.log("modalData", modalData);
-
   const [messages] = useState<Message[]>([
     {
       id: 1,
@@ -37,11 +35,11 @@ export default function ChatMessages() {
     },
   ]);
 
-  // add modalData to messages
+  // 모달 데이터 존재 시 메시지 추가
   if (modalData) {
     messages.push({
       id: messages.length + 1,
-      // imageUrl: modalData.imageUrl,
+      imageUrl: modalData.imageUrl,
       description: modalData.description,
       isOwn: true,
       timestamp: "오후 2:35",
@@ -72,7 +70,7 @@ export default function ChatMessages() {
                   : "bg-white text-gray-800 rounded-bl-md shadow-sm"
               }`}
             >
-              {/* temporary message rendering */}
+              {/* 임시 메시지 */}
               {message.imageUrl && (
                 <img
                   src={message.imageUrl}
@@ -98,3 +96,5 @@ export default function ChatMessages() {
     </div>
   );
 }
+
+// 이미지 두 번 표시
