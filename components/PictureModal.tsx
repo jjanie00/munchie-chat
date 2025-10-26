@@ -74,8 +74,8 @@ export default function PictureModal({
               className="px-4 py-2 bg-black text-white rounded-lg cursor-pointer"
               onClick={() =>
                 handleRegister({
-                  id: 0,
-                  isOwn: false,
+                  id: 2,
+                  isOwn: true,
                   imageUrl,
                   description,
                   timestamp: new Date().toISOString(),

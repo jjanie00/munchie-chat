@@ -9,7 +9,7 @@ export default function Home() {
       <ChatHeader />
 
       {/* 채팅 메시지 영역 */}
-      <div className="flex-1 overflow-hidden">
+      <div className="flex-1">
         <ChatMessages />
       </div>
 
