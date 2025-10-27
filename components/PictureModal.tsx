@@ -118,11 +118,6 @@ export default function PictureModal({
             className="w-full h-auto rounded-lg"
             alt="촬영한 사진"
           />
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full h-32 border border-gray-300 rounded-lg p-2 text-black mt-4"
-          />
           <div className="mt-4 flex gap-2 justify-end">
             <button
               className="px-4 py-2 bg-black text-white rounded-lg cursor-pointer"
@@ -132,7 +127,7 @@ export default function PictureModal({
                   isOwn: true,
                   imageUrl,
                   description,
-                  timestamp: new Date().toISOString(),
+                  timestamp: new Date().toLocaleTimeString(),
                 })
               }
             >
@@ -150,3 +145,5 @@ export default function PictureModal({
     </Dialog>
   );
 }
+
+// todo :: 아이폰 이미지 업로드
