@@ -2,22 +2,28 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useModalStore } from "@/store/useModalstore";
-import { supabase } from "@/lib/supabase";
-interface Message {
-  id: number;
-  imageUrl?: string; // 임시 옵셔널 체이닝
-  description?: string;
-  isOwn: boolean;
-  timestamp: string;
-}
+import ChatMessageList from "./ChatMessageList";
+import { Message } from "@/types";
 
-export default function ChatMessages() {
+export default function ChatMessagesSection() {
+  const [messages, setMessages] = useState<Message[]>([]);
   const modalData = useModalStore((state) => state.modalData);
   const observerTarget = useRef<HTMLDivElement>(null);
   const isLoadingRef = useRef(false);
 
+  // 새로운 매시지 추가 : Zustand store 에서 가져옴
+  // 기존 메시지 렌더링 : supabse storage 에서 가져와서 map 으로 렌더링
+
+  // 모달 데이터 존재 시 메시지 추가
   useEffect(() => {
-    // early return in server rendering
+    if (modalData) {
+      setMessages((prev) => [...prev, modalData]);
+    }
+  }, [modalData]);
+
+  // 무한 스크롤
+  useEffect(() => {
+    // 브라우저에서만 실행
     if (typeof window === "undefined") return;
     //
     const observer = new IntersectionObserver(
@@ -54,67 +60,9 @@ export default function ChatMessages() {
     return () => observer.disconnect();
   }, []);
 
-  const [messages, setMessages] = useState<Message[]>([]);
-
-  useEffect(() => {
-    // 모달 데이터 존재 시 메시지 추가
-    if (modalData) {
-      setMessages((prev) => [...prev, modalData]);
-    }
-  }, [modalData]);
-
   return (
-    <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 bg-[#f2f3f5]">
-      {messages.map((message) => (
-        <div
-          key={message.id}
-          className={`flex ${message.isOwn ? "justify-end" : "justify-start"}`}
-        >
-          <div className={`max-w-xs lg:max-w-md`}>
-            {!message.isOwn && (
-              <div className="flex items-center gap-2 mb-1">
-                <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
-                  <span className="text-xs font-medium text-gray-600">
-                    친구
-                  </span>
-                </div>
-                <span className="text-xs text-gray-500">친구</span>
-              </div>
-            )}
-
-            <div
-              className={`px-4 py-2 rounded-2xl ${
-                message.isOwn
-                  ? "bg-black text-white rounded-br-md"
-                  : "bg-white text-gray-800 rounded-bl-md shadow-sm"
-              }`}
-            >
-              {/* 임시 메시지 */}
-              {message.imageUrl && (
-                <img
-                  src={message.imageUrl}
-                  className="w-full h-auto rounded-lg"
-                  alt="image"
-                />
-              )}
-              <p className="text-sm leading-relaxed">{message.description}</p>
-            </div>
-
-            <div
-              className={`text-xs text-gray-500 mt-1 px-2 ${
-                message.isOwn ? "text-right" : "text-left"
-              }`}
-            >
-              {message.timestamp}
-            </div>
-          </div>
-        </div>
-      ))}
-
-      <div className="h-4">
-        {/* 스크롤 트리거 */}
-        <div ref={observerTarget} className="h-1" />
-      </div>
-    </div>
+    <>
+      <ChatMessageList messages={messages} />
+    </>
   );
 }

@@ -1,6 +1,7 @@
 import ChatHeader from "@/components/ChatHeader";
 import ChatMessages from "@/components/ChatMessages";
 import CameraButton from "@/components/CameraButton";
+import ChatMessagesSection from "@/components/ChatMessages";
 
 export default function Home() {
   return (
@@ -10,7 +11,7 @@ export default function Home() {
 
       {/* 채팅 메시지 영역 */}
       <div className="flex-1">
-        <ChatMessages />
+        <ChatMessagesSection />
       </div>
 
       {/* Floating 카메라 버튼 */}
