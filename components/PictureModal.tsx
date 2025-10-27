@@ -1,3 +1,4 @@
+import { supabase } from "@/lib/supabase";
 import { useModalStore } from "@/store/useModalstore";
 import { ModalData } from "@/types";
 import { picToBase64 } from "@/util";
@@ -36,7 +37,61 @@ export default function PictureModal({
     description,
     timestamp,
   }: ModalData) => {
-    // 이미지를 base64로 변환
+    // server : jpeg 변환, supabase storage 업로드
+    async function blobUrlToJpeg(blobUrl: string): Promise<Blob> {
+      return new Promise((resolve, reject) => {
+        // Image 객체
+        const img = new Image();
+        img.src = blobUrl;
+
+        // Image 로딩은 비동기, onLoad 이후 width/height 접근 O
+        img.onload = () => {
+          // canvas 생성
+          const canvas = document.createElement("canvas");
+          // canvas 크기 설정
+          canvas.width = img.width;
+          canvas.height = img.height;
+
+          const ctx = canvas.getContext("2d");
+          ctx?.drawImage(img, 0, 0);
+
+          // JPEG Blob 변환
+          canvas.toBlob(
+            // canvas.toblob api 가 자동으로 생성해 전달
+            (blob) => {
+              if (blob) {
+                resolve(blob);
+              } else {
+                reject(new Error("변환 실패"));
+              }
+            },
+            // 변환 형식
+            "image/jpeg",
+            // 품질
+            0.9
+          );
+        };
+
+        img.onerror = reject;
+      });
+    }
+    const jpegBlobUrl = await blobUrlToJpeg(imageUrl);
+
+    // supabase storage 업로드
+    async function uploadFile(jpegBlobUrl: Blob) {
+      const { data, error } = await supabase.storage
+        .from("meal-images")
+        .upload(`chat/${Date.now()}.jpg`, jpegBlobUrl);
+      if (error) {
+        console.error("업로드 실패:", error);
+        return;
+      } else {
+        console.log("업로드 성공:", data);
+      }
+    }
+    uploadFile(jpegBlobUrl);
+
+    // browser : base64 변환, Zustand store 저장
     const convertedImgUrl = (await picToBase64(imageUrl)) as string;
     // 스토어에 모달 데이터 설정
     useModalStore.getState().setModalData({
@@ -46,7 +101,6 @@ export default function PictureModal({
       description,
       timestamp,
     });
-    // 모달 닫기
     onClose();
   };
   return (

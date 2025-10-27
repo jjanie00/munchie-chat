@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useModalStore } from "@/store/useModalstore";
+import { supabase } from "@/lib/supabase";
 interface Message {
   id: number;
   imageUrl?: string; // 임시 옵셔널 체이닝
