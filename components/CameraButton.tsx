@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import Image from "next/image";
 import PictureModal from "./PictureModal";
 
 export default function CameraButton() {
@@ -16,9 +17,14 @@ export default function CameraButton() {
     <div>
       <button
         onClick={() => handleButtonClick()}
-        className="fixed bottom-6 right-6 w-14 h-14 bg-white rounded-full items-center justify-center text-black"
+        className="fixed bottom-6 right-6 cursor-pointer transition-transform hover:scale-120"
       >
-        📷
+        <Image
+          src="/blue_camera.png"
+          alt="카메라 기능 열림"
+          width={48}
+          height={48}
+        />
       </button>
       <input
         ref={inputRef}
