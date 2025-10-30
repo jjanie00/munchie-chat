@@ -1,6 +1,6 @@
 import ChatHeader from "@/components/ChatHeader";
 import ChatMessagesSection from "@/components/ChatMessageSection";
-import CameraButton from "@/components/CameraButton";
+import OpenCamera from "@/components/OpenCamera";
 
 export default function Home() {
   return (
@@ -14,7 +14,7 @@ export default function Home() {
       </div>
 
       {/* Floating 카메라 버튼 */}
-      <CameraButton />
+      <OpenCamera />
     </div>
   );
 }
