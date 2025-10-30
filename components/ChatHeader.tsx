@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import ProfileIcon from "@/assets/images/profile.png";
 
 export default function ChatHeader() {
   const TEMP_USER_NAME = "munchie";
@@ -11,7 +12,7 @@ export default function ChatHeader() {
       {/* 왼쪽 영역 */}
       <div className="flex items-center gap-3">
         {/* 프로필 이미지 */}
-        <Image src="/profile.png" alt="프로필 이미지" width={32} height={32} />
+        <Image src={ProfileIcon} alt="프로필 이미지" width={32} height={32} />
 
         {/* 사용자 이름 */}
         <div>

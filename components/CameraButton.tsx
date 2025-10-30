@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import PictureModal from "./PictureModal";
-import cameraIcon from "@/assets/icons/camera.png";
+import PlusIcon from "@/assets/icons/PlusIcon";
 
 export default function CameraButton() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -18,9 +18,9 @@ export default function CameraButton() {
     <div>
       <button
         onClick={() => handleButtonClick()}
-        className="fixed bottom-6 right-6 cursor-pointer transition-transform hover:scale-120"
+        className="fixed bottom-6 right-6 cursor-pointer transition-transform hover:scale-110 duration-300"
       >
-        <Image src={cameraIcon} alt="카메라 기능 열림" width={48} height={48} />
+        <PlusIcon />
       </button>
       <input
         ref={inputRef}
